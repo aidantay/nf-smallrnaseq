@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    nf/smallrnaseq
+    aidantay/nf-smallrnaseq
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/nf/smallrnaseq
+    Github : https://github.com/aidantay/nf-smallrnaseq
 ----------------------------------------------------------------------------------------
 */
 
@@ -31,7 +31,6 @@ workflow NF_SMALLRNASEQ {
     samplesheet // channel: samplesheet read in from --input
 
     main:
-
     //
     // WORKFLOW: Run pipeline
     //
@@ -42,6 +41,7 @@ workflow NF_SMALLRNASEQ {
         params.multiqc_methods_description,
         params.outdir,
     )
+
     emit:
     multiqc_report = SMALLRNASEQ.out.multiqc_report // channel: /path/to/multiqc_report.html
 }
@@ -75,6 +75,7 @@ workflow {
     NF_SMALLRNASEQ (
         PIPELINE_INITIALISATION.out.samplesheet
     )
+
     //
     // SUBWORKFLOW: Run completion tasks
     //

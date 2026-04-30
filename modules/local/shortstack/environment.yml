@@ -1,0 +1,6 @@
+name: shortstack
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconda::shortstack=4.1.0

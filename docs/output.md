@@ -1,4 +1,4 @@
-# nf/smallrnaseq: Output
+# aidantay/nf-smallrnaseq: Output
 
 ## Introduction
 

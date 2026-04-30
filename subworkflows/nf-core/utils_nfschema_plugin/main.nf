@@ -24,7 +24,6 @@ workflow UTILS_NFSCHEMA_PLUGIN {
     command             // string:   an example command of the pipeline
 
     main:
-
     if(help || help_full) {
         help_options = [
             beforeText: before_text,

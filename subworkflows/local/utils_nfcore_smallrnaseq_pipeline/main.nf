@@ -1,5 +1,5 @@
 //
-// Subworkflow with functionality specific to the nf/smallrnaseq pipeline
+// Subworkflow with functionality specific to the aidantay/nf-smallrnaseq pipeline
 //
 
 /*
@@ -36,7 +36,6 @@ workflow PIPELINE_INITIALISATION {
     show_hidden       // boolean: Show hidden parameters in the help message
 
     main:
-
     ch_versions = channel.empty()
 
     //
@@ -52,7 +51,6 @@ workflow PIPELINE_INITIALISATION {
     //
     // Validate parameters and generate parameter summary to stdout
     //
-
     def before_text = ""
     def after_text = ""
     if (monochrome_logs) {
@@ -83,7 +81,6 @@ workflow PIPELINE_INITIALISATION {
     //
     // Create channel from input file provided through params.input
     //
-
     channel
         .fromList(samplesheetToList(input, "${projectDir}/assets/schema_input.json"))
         .map {
@@ -121,7 +118,6 @@ workflow PIPELINE_COMPLETION {
     monochrome_logs // boolean: Disable ANSI colour codes in log output
 
     main:
-
     //
     // Completion email and summary
     //

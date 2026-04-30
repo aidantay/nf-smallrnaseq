@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://raw.githubusercontent.com/nf/smallrnaseq/master/nextflow_schema.json",
-    "title": "nf/smallrnaseq pipeline parameters",
+    "$id": "https://raw.githubusercontent.com/aidantay/nf-smallrnaseq/master/nextflow_schema.json",
+    "title": "aidantay/nf-smallrnaseq pipeline parameters",
     "description": "Test",
     "type": "object",
     "$defs": {
@@ -23,6 +23,36 @@
                     "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row.",
                     "fa_icon": "fas fa-file-csv"
                 },
+                "fasta": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
+                    "description": "Path to FASTA genome file.",
+                    "help_text": "Path to FASTA genome file. This is used as the reference for alignment.",
+                    "fa_icon": "fas fa-dna"
+                },
+                "gtf": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.gtf(\\.gz)?$",
+                    "description": "Path to GTF annotation file.",
+                    "help_text": "Path to GTF annotation file. Used for gene quantification and other annotation-based tasks.",
+                    "fa_icon": "fas fa-file-code"
+                },
+                "gff": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.gff3?(\\.gz)?$",
+                    "description": "Path to GFF3 annotation file.",
+                    "help_text": "Path to GFF3 annotation file. Alternative to GTF for gene quantification.",
+                    "fa_icon": "fas fa-file-code"
+                },
                 "outdir": {
                     "type": "string",
                     "format": "directory-path",
@@ -33,6 +63,82 @@
                     "type": "string",
                     "description": "MultiQC report title. Printed as page header, used for filename if not otherwise specified.",
                     "fa_icon": "fas fa-file-signature"
+                }
+            }
+        },
+        "qc_trim_options": {
+            "title": "QC and trimming options",
+            "type": "object",
+            "fa_icon": "fas fa-cut",
+            "description": "Options for FastQC and fastp steps.",
+            "properties": {
+                "save_trimmed_fail": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Save files that failed fastp filtering.",
+                    "fa_icon": "fas fa-save"
+                },
+                "discard_trimmed_pass": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Discard reads that pass fastp filtering (useful for testing).",
+                    "fa_icon": "fas fa-trash-alt"
+                },
+                "save_merged": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Save merged paired-end reads in a separate file.",
+                    "fa_icon": "fas fa-save"
+                },
+                "skip_fastp": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Skip the fastp trimming step.",
+                    "fa_icon": "fas fa-fast-forward"
+                },
+                "skip_fastqc": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Skip the FastQC step.",
+                    "fa_icon": "fas fa-fast-forward"
+                },
+                "fastp_args": {
+                    "type": "string",
+                    "description": "Additional arguments to pass to fastp.",
+                    "fa_icon": "fas fa-filter"
+                }
+            }
+        },
+        "alignment_options": {
+            "title": "Alignment options",
+            "type": "object",
+            "fa_icon": "fas fa-thumbtack",
+            "description": "Options for the alignment step.",
+            "properties": {
+                "sort_bam": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to sort the BAM file in the aligner. Usually false if followed by a sort process.",
+                    "fa_icon": "fas fa-sort-amount-down",
+                    "hidden": true
+                },
+                "save_aligned_bam": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Save aligned BAM files to the output directory.",
+                    "fa_icon": "fas fa-save"
+                },
+                "save_unaligned": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Save unaligned reads to FastQ files.",
+                    "fa_icon": "fas fa-save"
+                },
+                "skip_bowtie": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Skip Bowtie 1 alignment.",
+                    "fa_icon": "fas fa-fast-forward"
                 }
             }
         },
@@ -169,6 +275,12 @@
     "allOf": [
         {
             "$ref": "#/$defs/input_output_options"
+        },
+        {
+            "$ref": "#/$defs/qc_trim_options"
+        },
+        {
+            "$ref": "#/$defs/alignment_options"
         },
         {
             "$ref": "#/$defs/institutional_config_options"

@@ -1,0 +1,109 @@
+name: "shortstack"
+description: Comprehensive annotation and quantification of small RNA genes
+keywords:
+  - small rna
+  - alignment
+  - annotation
+  - quantification
+tools:
+  - "shortstack":
+      description: "Comprehensive annotation and quantification of small RNA genes"
+      homepage: "https://github.com/MikeAxtell/ShortStack"
+      documentation: "https://github.com/MikeAxtell/ShortStack"
+      tool_dev_url: "https://github.com/MikeAxtell/ShortStack"
+      doi: "10.1261/rna.035279.112"
+      licence:
+        - "GPL-3.0-or-later"
+      identifier: biotools:shortstack
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing meta data
+          e.g. [ id:'test', single_end:false ]
+    - reads:
+        type: file
+        description: FastA/FastQ/BAM file containing small RNA reads
+        pattern: "*.{fasta,fastq,fa,fq,fasta.gz,fastq.gz,fa.gz,fq.gz,bam}"
+        ontologies: []
+  - - fasta:
+        type: file
+        description: Genome reference fasta file
+        pattern: "*.{fasta,fa,fasta.gz,fa.gz}"
+        ontologies: []
+output:
+  bam:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing meta data
+            e.g. [ id:'test', single_end:false ]
+      - "${output_dir_name}/*.bam":
+          type: file
+          description: BAM file containing alignments
+          pattern: "*.bam"
+          ontologies: []
+  csi:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing meta data
+            e.g. [ id:'test', single_end:false ]
+      - "${output_dir_name}/*.csi":
+          type: file
+          description: CSI index for BAM file
+          pattern: "*.csi"
+          ontologies: []
+  gff3:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing meta data
+            e.g. [ id:'test', single_end:false ]
+      - "${output_dir_name}/*.gff3":
+          type: file
+          description: GFF3 file containing annotations
+          pattern: "*.gff3"
+          ontologies: []
+  txt:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing meta data
+            e.g. [ id:'test', single_end:false ]
+      - "${output_dir_name}/*.txt":
+          type: file
+          description: Text files containing results
+          pattern: "*.txt"
+          ontologies: []
+  folder:
+    - - "${output_dir_name}":
+          type: directory
+          description: Output directory containing all shortstack results
+          pattern: "*"
+          ontologies: []
+  versions_shortstack:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - shortstack:
+          type: string
+          description: The name of the tool
+      - eval('ShortStack --version | sed "s/ShortStack version //"'):
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - shortstack:
+          type: string
+          description: The name of the tool
+      - eval('ShortStack --version | sed "s/ShortStack version //"'):
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@aidantay"
+maintainers:
+  - "@aidantay"

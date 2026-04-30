@@ -1,0 +1,51 @@
+%%metro style: dark
+%%metro file: ref_fasta | FASTA
+%%metro file: ref_anno | GTF/GFF
+%%metro file: fastq_in | FASTQ
+%%metro file: report_out | HTML
+%%metro line: main | Main | #2db572
+
+graph LR
+
+    subgraph prepare_genome [Prepare Genome]
+        ref_fasta[ ]
+        ref_anno[ ]
+    end
+
+    subgraph fastq_trim_fastp_fastqc [Read QC]
+        fastq_in[ ]
+        cat_fastq([Cat Fastq])
+        fastqc_raw([FastQC])
+        fastp([Fastp])
+        fastqc_trim([FastQC])
+
+        fastq_in -->|main| cat_fastq
+        cat_fastq -->|main| fastqc_raw
+        fastqc_raw -->|main| fastp
+        fastp -->|main| fastqc_trim
+    end
+
+    subgraph fastq_align_bowtie [Alignment]
+        bowtie2_align([Bowtie2 Align])
+
+        bowtie2_align -->|main| samtools
+    end
+
+    subgraph shortstack [Small RNA Annotation]
+        shortstack([ShortStack])
+        deseq2_qc([DESeq2 QC])
+
+        shortstack -->|main| deseq2_qc       
+    end
+
+    subgraph reporting [Reporting]
+        multiqc([MultiQC])
+    end
+
+    %% Inter-section edges
+    ref_fasta -->|main| bowtie2_align
+    ref_anno -->|main| bowtie2_align
+
+    fastqc_trim -->|main| bowtie2_align
+    samtools -->|main| shortstack
+    shortstack -->|main| multiqc

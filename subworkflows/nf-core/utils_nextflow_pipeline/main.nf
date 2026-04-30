@@ -9,6 +9,7 @@
 */
 
 workflow UTILS_NEXTFLOW_PIPELINE {
+
     take:
     print_version        // boolean: print version
     dump_parameters      // boolean: dump parameters
@@ -16,7 +17,6 @@ workflow UTILS_NEXTFLOW_PIPELINE {
     check_conda_channels // boolean: check conda channels
 
     main:
-
     //
     // Print workflow version and exit on --version
     //

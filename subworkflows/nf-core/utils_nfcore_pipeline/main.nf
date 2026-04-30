@@ -9,6 +9,7 @@
 */
 
 workflow UTILS_NFCORE_PIPELINE {
+
     take:
     nextflow_cli_args
 
